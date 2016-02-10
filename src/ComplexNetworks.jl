@@ -2,23 +2,22 @@
 
 module ComplexNetworks 
 using DataFrames
-using StatsBase
 
 ############################################################################################################################################
 #This function calls the pearson correlation module and fills a correlation matrix. This is the first step in order to build up the networks.
 
 function corMatrix(data,segNumber)
 
-	size = length(data)
-	rho = zeros(size,size)
+	elemNum, chNum  = size(data)
+	rho = zeros(elemNum,elemNum)
 
-	for (i in 1:size)
+	for (i in 1:elemNum)
 
-		x = data[i]
+		x = data[:,i]
 
-		for (j in 1:size)
+		for (j in 1:elemNum)
 
-			y = data[j]
+			y = data[:,j]
 			rho[i,j] = cor(x,y)
 		
 		end
@@ -39,14 +38,11 @@ function segTimeSeries(raw,segSize,segNumber)
 end
 
 function timeVarCor(raw,segSize,overlap)
-    size = length(raw[1])
-    for (k in 1:(size - segSize))
+    elemNum, chNum  = size(raw)
+    for (k in 1:(elemNum - segSize))
         corMatrix(segTimeSeries(raw,segSize,k),k)
     end
 
 end
-
-timeseries = readtable("arq.dat")
-timeVarCor(timeseries,10,1)
 
 end #module
