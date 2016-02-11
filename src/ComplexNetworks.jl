@@ -22,7 +22,7 @@ function corMatrix(data,segNumber)
 
 			y = data[:,j]
 			rho[i,j] = cor(x,y)
-                        if rho[i,j] >= 0.9
+                        if abs(rho[i,j]) >= 0.9
                             
                             adj[i,j] = 1
                         
